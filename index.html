@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260709-05-e5cead5"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxe Maison</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=DM+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            gold: '#C9A96E',
+            'gold-light': '#E8D5B0',
+            charcoal: '#1a1a1a',
+            'matte-black': '#0d0d0d',
+            cream: '#FAF7F2'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { --gold: #C9A96E; --charcoal: #1a1a1a; }
+    body { font-family: 'DM Sans', sans-serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--gold); z-index: 9999; transition: width 0.1s; }
+    .nav-glass { backdrop-filter: blur(20px); background: rgba(13,13,13,0.9); }
+    .card-hover { transition: transform 0.4s, box-shadow 0.4s; }
+    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(201,169,110,0.12); }
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .cart-drawer { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .cart-drawer.open { transform: translateX(0); }
+    .overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .overlay.active { opacity: 1; pointer-events: all; }
+    .lightbox { opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .lightbox.active { opacity: 1; pointer-events: all; }
+    .toast { animation: toast-in 0.3s ease, toast-out 0.3s ease 2.5s forwards; }
+    @keyframes toast-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes toast-out { from { opacity: 1; } to { opacity: 0; } }
+    .hamburger-menu { transform: translateX(-100%); transition: transform 0.3s; }
+    .hamburger-menu.open { transform: translateX(0); }
+    .hero-height { min-height: calc(100 * min(var(--vh, 1vh), 1vh)); }
+    .cat-scroll::-webkit-scrollbar { height: 4px; }
+    .cat-scroll::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+    input:focus, textarea:focus, select:focus { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    @keyframes slide-in { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+    .animate-slide { animation: slide-in 0.6s ease forwards; opacity: 0; }
+  </style>
+  <script src="/_sdk/0179d719c431a79e.data_sdk.js" type="text/javascript" integrity="sha512-OsRvJkI5GkC3MJQcgotQYotpzrMSX415GiKKgvYdxQEEkzD/fdchShO2FMSy0PJr/tiINMXOk5Vl2zAgg6bUiA=="></script>
+  <script src="/_sdk/9432170dbd2ae0df.resizing_sdk.js" type="text/javascript" integrity="sha512-FeT+58sb1f9ejWPWFjCbJvTT+SDwGV+ngrHUnlO7TWEOoqwOLj6p256kO3vOL7DIWl1cIgrobiof8v2bOigwPg=="></script>
+ </head>
+ <body data-template-id="__page-root" class="w-full bg-cream text-charcoal dark:bg-matte-black dark:text-white transition-colors duration-300" style="background: rgb(250, 247, 242);">
+  <div id="scroll-progress" class="scroll-progress" style="width:0%"></div><!-- Navigation -->
+  <header id="navbar" class="fixed top-0 left-0 w-full z-50 nav-glass border-b border-white/5">
+   <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"><a href="#" class="flex items-center"> <h1 data-template-id="nav-logo" class="canva-text font-playfair text-xl text-white tracking-wider" style="color: rgb(201, 169, 110); font-weight: 700; font-style: normal; font-size: 22px;">LUXE MAISON</h1></a>
+    <ul class="hidden lg:flex items-center gap-8 text-sm text-white/70 font-medium">
+     <li><a href="#hero" class="hover:text-gold transition">Home</a></li>
+     <li><a href="#shop" class="hover:text-gold transition">Shop</a></li>
+     <li><a href="#categories" class="hover:text-gold transition">Categories</a></li>
+     <li><a href="#offers" class="hover:text-gold transition">Offers</a></li>
+     <li><a href="#gallery" class="hover:text-gold transition">Gallery</a></li>
+     <li><a href="#testimonials" class="hover:text-gold transition">Reviews</a></li>
+     <li><a href="#contact" class="hover:text-gold transition">Contact</a></li>
+    </ul>
+    <div class="flex items-center gap-2 text-white"><button id="search-toggle" aria-label="Search" class="p-2 hover:text-gold transition"><i data-lucide="search" class="w-5 h-5"></i></button> <button id="wishlist-toggle" aria-label="Wishlist" class="p-2 hover:text-gold transition relative"><i data-lucide="heart" class="w-5 h-5"></i><span id="wishlist-badge" class="absolute -top-1 -right-1 bg-gold text-black text-xs w-4 h-4 rounded-full flex items-center justify-center hidden">0</span></button> <button id="cart-toggle" aria-label="Cart" class="p-2 hover:text-gold transition relative"><i data-lucide="shopping-bag" class="w-5 h-5"></i><span id="cart-badge" class="absolute -top-1 -right-1 bg-gold text-black text-xs w-4 h-4 rounded-full flex items-center justify-center hidden">0</span></button> <button id="dark-toggle" aria-label="Toggle dark mode" class="p-2 hover:text-gold transition"><i data-lucide="moon" class="w-5 h-5"></i></button> <button id="hamburger" aria-label="Menu" class="lg:hidden p-2"><i data-lucide="menu" class="w-6 h-6"></i></button>
+    </div>
+   </nav>
+   <div id="search-bar" class="hidden px-6 pb-4 max-w-7xl mx-auto"><label for="search-input" class="sr-only">Search products</label> <input type="text" id="search-input" placeholder="Search luxury products..." class="w-full px-4 py-2.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm">
+   </div>
+  </header><!-- Mobile Menu -->
+  <div id="mobile-menu" class="hamburger-menu fixed inset-0 z-[60] bg-matte-black flex flex-col items-center justify-center gap-8 text-white text-lg"><button id="close-menu" class="absolute top-4 right-4 p-2"><i data-lucide="x" class="w-6 h-6"></i></button> <a href="#hero" class="hover:text-gold transition" onclick="closeMenu()">Home</a> <a href="#shop" class="hover:text-gold transition" onclick="closeMenu()">Shop</a> <a href="#categories" class="hover:text-gold transition" onclick="closeMenu()">Categories</a> <a href="#offers" class="hover:text-gold transition" onclick="closeMenu()">Offers</a> <a href="#gallery" class="hover:text-gold transition" onclick="closeMenu()">Gallery</a> <a href="#contact" class="hover:text-gold transition" onclick="closeMenu()">Contact</a>
+  </div><!-- Hero - Split Layout -->
+  <section id="hero" class="hero-height grid lg:grid-cols-2">
+   <div class="flex flex-col justify-center px-8 md:px-16 lg:px-20 pt-32 pb-16 lg:pt-0 bg-matte-black">
+    <p data-template-id="hero-subtitle" class="canva-text text-gold tracking-[0.25em] uppercase text-xs mb-6 animate-slide" style="color: rgb(201, 169, 110); font-weight: 500; font-style: normal; font-size: 16px;">Exclusive Collection 2026</p>
+    <h2 data-template-id="hero-title" class="canva-text font-playfair text-3xl md:text-5xl lg:text-6xl text-white font-bold leading-[1.1] mb-6 animate-slide stagger-1" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">The Art of Luxury, Redefined</h2>
+    <p data-template-id="hero-desc" class="canva-text text-white/60 text-base mb-10 max-w-md animate-slide stagger-2" style="color: rgba(255, 255, 255, 0.627); font-weight: 400; font-style: normal; font-size: 16px;">Discover curated collections from the world's most prestigious fashion houses. Timeless elegance, delivered.</p>
+    <div class="flex flex-wrap gap-4 animate-slide stagger-3"><a href="#shop" data-template-id="hero-cta1" class="canva-button px-8 py-3.5 bg-gold text-black font-semibold rounded-none hover:bg-gold-light transition text-sm tracking-wider uppercase" style="background: rgb(201, 169, 110); color: rgb(0, 0, 0); font-weight: 600; font-style: normal; font-size: 16px;">Shop Now</a> <a href="#categories" data-template-id="hero-cta2" class="canva-button px-8 py-3.5 border border-white/40 text-white rounded-none hover:bg-white hover:text-black transition text-sm tracking-wider uppercase" style="color: rgb(255, 255, 255); font-weight: 500; font-style: normal; font-size: 16px;">Explore</a>
+    </div>
+   </div>
+   <div class="relative hidden lg:block"><img data-template-id="hero-bg" class="canva-image absolute inset-0 w-full h-full object-cover" loading="eager" src="https://images.pexels.com/photos/13208880/pexels-photo-13208880.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920" alt="A mannequin wearing lace clothing, set in a dark, modern fashion store interior">
+    <div class="absolute inset-0 bg-gradient-to-r from-matte-black/30 to-transparent"></div>
+   </div>
+  </section>
+  <main><!-- Categories - Horizontal Scroll -->
+   <section id="categories" class="py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="flex items-end justify-between mb-8">
+      <div>
+       <h2 data-template-id="categories-title" class="canva-text font-playfair text-2xl md:text-3xl mb-2" style="color: rgb(26, 26, 26); font-weight: 700; font-style: normal; font-size: 24px;">Shop by Category</h2>
+       <p data-template-id="categories-sub" class="canva-text text-gray-500 dark:text-gray-400 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Explore our curated luxury categories</p>
+      </div>
+     </div>
+     <div class="cat-scroll flex gap-4 overflow-x-auto pb-4 -mx-2 px-2"><button class="cat-card flex-shrink-0 w-40 md:w-48 rounded-2xl overflow-hidden relative aspect-[3/4] group" data-cat="watches"> <img data-template-id="cat-watches-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Luxury wristwatch with stainless steel bracelet">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4"><span data-template-id="cat-watches-label" class="canva-text text-white font-semibold" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Watches</span>
+       </div></button> <button class="cat-card flex-shrink-0 w-40 md:w-48 rounded-2xl overflow-hidden relative aspect-[3/4] group" data-cat="bags"> <img data-template-id="cat-bags-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Elegant brown leather briefcase">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4"><span data-template-id="cat-bags-label" class="canva-text text-white font-semibold" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Bags</span>
+       </div></button> <button class="cat-card flex-shrink-0 w-40 md:w-48 rounded-2xl overflow-hidden relative aspect-[3/4] group" data-cat="perfumes"> <img data-template-id="cat-perfumes-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Elegant collection of perfume bottles">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4"><span data-template-id="cat-perfumes-label" class="canva-text text-white font-semibold" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Perfumes</span>
+       </div></button> <button class="cat-card flex-shrink-0 w-40 md:w-48 rounded-2xl overflow-hidden relative aspect-[3/4] group" data-cat="shoes"> <img data-template-id="cat-shoes-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/336372/pexels-photo-336372.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Sleek red stilettos in a luxury boutique">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4"><span data-template-id="cat-shoes-label" class="canva-text text-white font-semibold" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Shoes</span>
+       </div></button> <button class="cat-card flex-shrink-0 w-40 md:w-48 rounded-2xl overflow-hidden relative aspect-[3/4] group" data-cat="jewelry"> <img data-template-id="cat-jewelry-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Stylish bracelets showcasing modern fashion jewelry">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4"><span data-template-id="cat-jewelry-label" class="canva-text text-white font-semibold" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Jewelry</span>
+       </div></button> <button class="cat-card flex-shrink-0 w-40 md:w-48 rounded-2xl overflow-hidden relative aspect-[3/4] group" data-cat="sunglasses"> <img data-template-id="cat-sunglasses-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/701877/pexels-photo-701877.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Elegant round sunglasses with gold frames">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4"><span data-template-id="cat-sunglasses-label" class="canva-text text-white font-semibold" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Sunglasses</span>
+       </div></button> <button class="cat-card flex-shrink-0 w-40 md:w-48 rounded-2xl overflow-hidden relative aspect-[3/4] group" data-cat="fashion"> <img data-template-id="cat-fashion-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/18530979/pexels-photo-18530979.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Stylish ensemble with white jacket and luxury handbags">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4"><span data-template-id="cat-fashion-label" class="canva-text text-white font-semibold" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Fashion</span>
+       </div></button> <button class="cat-card flex-shrink-0 w-40 md:w-48 rounded-2xl overflow-hidden relative aspect-[3/4] group" data-cat="accessories"> <img data-template-id="cat-accessories-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/9807760/pexels-photo-9807760.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Leather wallet belt and essentials on wooden table">
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4"><span data-template-id="cat-accessories-label" class="canva-text text-white font-semibold" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Accessories</span>
+       </div></button>
+     </div>
+    </div>
+   </section><!-- Featured Collection Banner -->
+   <section class="relative h-80 md:h-96 mx-6 max-w-7xl lg:mx-auto rounded-3xl overflow-hidden mb-16"><img data-template-id="featured-banner-img" class="canva-image absolute inset-0 w-full h-full object-cover" loading="lazy" src="https://images.pexels.com/photos/6467628/pexels-photo-6467628.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1280" alt="Sophisticated woman in white suit enjoying champagne on a plush sofa in a luxurious hotel setting">
+    <div class="absolute inset-0 bg-black/50 flex items-center justify-center text-center px-6">
+     <div>
+      <p data-template-id="featured-label" class="canva-text text-gold uppercase tracking-[0.3em] text-xs mb-3" style="color: rgb(201, 169, 110); font-weight: 500; font-style: normal; font-size: 16px;">New Season</p>
+      <h2 data-template-id="featured-title" class="canva-text font-playfair text-3xl md:text-5xl text-white font-bold mb-4" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">The Autumn Collection</h2>
+      <p data-template-id="featured-desc" class="canva-text text-white/60 mb-6 max-w-md mx-auto text-sm" style="color: rgba(255, 255, 255, 0.627); font-weight: 400; font-style: normal; font-size: 16px;">Discover our latest arrivals — handpicked pieces that define modern luxury.</p><a href="#shop" data-template-id="featured-cta" class="canva-button inline-block px-8 py-3 bg-gold text-black font-semibold text-sm tracking-wider uppercase hover:bg-gold-light transition" style="background: rgb(201, 169, 110); color: rgb(0, 0, 0); font-weight: 600; font-style: normal; font-size: 16px;">View Collection</a>
+     </div>
+    </div>
+   </section><!-- Shop -->
+   <section id="shop" class="py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-10">
+      <h2 data-template-id="shop-title" class="canva-text font-playfair text-2xl md:text-4xl mb-3" style="color: rgb(26, 26, 26); font-weight: 700; font-style: normal; font-size: 24px;">Featured Collection</h2>
+      <p data-template-id="shop-sub" class="canva-text text-gray-500 dark:text-gray-400 text-sm" style="color: rgb(107, 114, 128); font-weight: 400; font-style: normal; font-size: 16px;">Handpicked luxury pieces for the discerning connoisseur</p>
+     </div>
+     <div class="flex flex-wrap gap-2 justify-center mb-6"><button class="filter-btn active px-4 py-2 rounded-full border border-gold text-gold text-xs font-medium transition hover:bg-gold hover:text-black" data-filter="all">All</button> <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-xs font-medium transition hover:border-gold hover:text-gold" data-filter="watches">Watches</button> <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-xs font-medium transition hover:border-gold hover:text-gold" data-filter="bags">Bags</button> <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-xs font-medium transition hover:border-gold hover:text-gold" data-filter="perfumes">Perfumes</button> <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-xs font-medium transition hover:border-gold hover:text-gold" data-filter="shoes">Shoes</button> <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-xs font-medium transition hover:border-gold hover:text-gold" data-filter="jewelry">Jewelry</button> <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-xs font-medium transition hover:border-gold hover:text-gold" data-filter="sunglasses">Sunglasses</button> <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-xs font-medium transition hover:border-gold hover:text-gold" data-filter="fashion">Fashion</button> <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-xs font-medium transition hover:border-gold hover:text-gold" data-filter="accessories">Accessories</button>
+     </div>
+     <div class="flex flex-wrap gap-3 justify-center mb-10"><select id="price-filter" class="px-3 py-2 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-charcoal text-xs" aria-label="Price range"> <option value="all">All Prices</option> <option value="0-500">Under $500</option> <option value="500-2000">$500 - $2,000</option> <option value="2000-10000">$2,000 - $10,000</option> <option value="10000-99999">$10,000+</option> </select> <select id="sort-filter" class="px-3 py-2 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-charcoal text-xs" aria-label="Sort by"> <option value="default">Sort By</option> <option value="price-asc">Price: Low to High</option> <option value="price-desc">Price: High to Low</option> <option value="rating">Highest Rated</option> <option value="newest">Newest</option> </select>
+     </div>
+     <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
+     <p id="no-products" class="hidden text-center text-gray-500 py-12 text-lg">No products found.</p>
+    </div>
+   </section><!-- Limited Offer -->
+   <section id="offers" class="py-20 px-6 relative overflow-hidden">
+    <div class="absolute inset-0 bg-charcoal dark:bg-matte-black"></div>
+    <div class="relative z-10 max-w-4xl mx-auto text-center text-white">
+     <p data-template-id="offer-label" class="canva-text text-gold tracking-[0.3em] uppercase text-xs mb-4" style="color: rgb(201, 169, 110); font-weight: 500; font-style: normal; font-size: 16px;">Limited Time</p>
+     <h2 data-template-id="offer-title" class="canva-text font-playfair text-3xl md:text-5xl font-bold mb-4" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">Exclusive 40% Off Collection</h2>
+     <p data-template-id="offer-desc" class="canva-text text-white/50 mb-10 max-w-lg mx-auto text-sm" style="color: rgba(255, 255, 255, 0.5); font-weight: 400; font-style: normal; font-size: 16px;">Indulge in our most sought-after pieces at unprecedented prices. This exclusive offer won't last.</p>
+     <div id="countdown" class="flex justify-center gap-3 md:gap-5 mb-10">
+      <div class="bg-white/5 border border-white/10 rounded-xl p-4 min-w-[65px]"><span id="cd-days" class="text-2xl font-bold text-gold">00</span>
+       <p class="text-[10px] text-white/50 mt-1 uppercase tracking-wider">Days</p>
+      </div>
+      <div class="bg-white/5 border border-white/10 rounded-xl p-4 min-w-[65px]"><span id="cd-hours" class="text-2xl font-bold text-gold">00</span>
+       <p class="text-[10px] text-white/50 mt-1 uppercase tracking-wider">Hours</p>
+      </div>
+      <div class="bg-white/5 border border-white/10 rounded-xl p-4 min-w-[65px]"><span id="cd-mins" class="text-2xl font-bold text-gold">00</span>
+       <p class="text-[10px] text-white/50 mt-1 uppercase tracking-wider">Min</p>
+      </div>
+      <div class="bg-white/5 border border-white/10 rounded-xl p-4 min-w-[65px]"><span id="cd-secs" class="text-2xl font-bold text-gold">00</span>
+       <p class="text-[10px] text-white/50 mt-1 uppercase tracking-wider">Sec</p>
+      </div>
+     </div><a href="#shop" data-template-id="offer-cta" class="canva-button inline-block px-10 py-3.5 bg-gold text-black font-semibold text-sm tracking-wider uppercase hover:bg-gold-light transition" style="background: rgb(201, 169, 110); color: rgb(0, 0, 0); font-weight: 600; font-style: normal; font-size: 16px;">Shop the Sale</a>
+    </div>
+   </section><!-- Stats -->
+   <section class="py-16 px-6">
+    <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+     <div class="fade-up"><span class="counter text-3xl md:text-4xl font-bold text-gold" data-target="25000">0</span>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 uppercase tracking-wider">Happy Clients</p>
+     </div>
+     <div class="fade-up"><span class="counter text-3xl md:text-4xl font-bold text-gold" data-target="1200">0</span>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 uppercase tracking-wider">Products</p>
+     </div>
+     <div class="fade-up"><span class="counter text-3xl md:text-4xl font-bold text-gold" data-target="85">0</span>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 uppercase tracking-wider">Countries</p>
+     </div>
+     <div class="fade-up"><span class="counter text-3xl md:text-4xl font-bold text-gold" data-target="50000">0</span>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 uppercase tracking-wider">Orders</p>
+     </div>
+    </div>
+   </section><!-- Testimonials -->
+   <section id="testimonials" class="py-16 px-6 bg-charcoal dark:bg-matte-black">
+    <div class="max-w-6xl mx-auto">
+     <h2 data-template-id="testimonials-title" class="canva-text font-playfair text-2xl md:text-3xl text-center text-white mb-12" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">What Our Clients Say</h2>
+     <div class="grid md:grid-cols-3 gap-6">
+      <div class="fade-up bg-white/5 border border-white/10 rounded-2xl p-6">
+       <div class="flex items-center gap-3 mb-4"><img data-template-id="test-1-img" class="canva-image w-11 h-11 rounded-full object-cover" loading="lazy" src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=400" alt="Portrait of a joyful brunette woman">
+        <div>
+         <p data-template-id="test-1-name" class="canva-text font-medium text-white text-sm" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Isabella Romano</p>
+         <p class="text-gold text-xs">★★★★★</p>
+        </div>
+       </div>
+       <p data-template-id="test-1-text" class="canva-text text-white/60 italic text-sm leading-relaxed" style="color: rgba(255, 255, 255, 0.6); font-weight: 400; font-style: normal; font-size: 16px;">Luxe Maison exceeded all my expectations. The quality is impeccable and the packaging felt like unwrapping a gift from a dear friend.</p>
+      </div>
+      <div class="fade-up bg-white/5 border border-white/10 rounded-2xl p-6">
+       <div class="flex items-center gap-3 mb-4"><img data-template-id="test-2-img" class="canva-image w-11 h-11 rounded-full object-cover" loading="lazy" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=400" alt="Man smiling behind wall">
+        <div>
+         <p data-template-id="test-2-name" class="canva-text font-medium text-white text-sm" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">James Whitfield</p>
+         <p class="text-gold text-xs">★★★★★</p>
+        </div>
+       </div>
+       <p data-template-id="test-2-text" class="canva-text text-white/60 italic text-sm leading-relaxed" style="color: rgba(255, 255, 255, 0.6); font-weight: 400; font-style: normal; font-size: 16px;">The watch I purchased is a masterpiece. Customer service was extraordinarily attentive. This is luxury shopping redefined.</p>
+      </div>
+      <div class="fade-up bg-white/5 border border-white/10 rounded-2xl p-6">
+       <div class="flex items-center gap-3 mb-4"><img data-template-id="test-3-img" class="canva-image w-11 h-11 rounded-full object-cover" loading="lazy" src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=400" alt="Beautiful portrait of a woman">
+        <div>
+         <p data-template-id="test-3-name" class="canva-text font-medium text-white text-sm" style="color: rgb(255, 255, 255); font-weight: 600; font-style: normal; font-size: 16px;">Sophia Laurent</p>
+         <p class="text-gold text-xs">★★★★★</p>
+        </div>
+       </div>
+       <p data-template-id="test-3-text" class="canva-text text-white/60 italic text-sm leading-relaxed" style="color: rgba(255, 255, 255, 0.6); font-weight: 400; font-style: normal; font-size: 16px;">From browsing to delivery, every touchpoint felt premium. The jewelry collection is absolutely divine. My new favorite destination.</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Gallery -->
+   <section id="gallery" class="py-16 px-6">
+    <h2 data-template-id="gallery-title" class="canva-text font-playfair text-2xl md:text-3xl text-center mb-10" style="color: rgb(26, 26, 26); font-weight: 700; font-style: normal; font-size: 24px;">Luxury Lifestyle</h2>
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
+     <div class="gallery-item rounded-2xl overflow-hidden cursor-pointer group aspect-square"><img data-template-id="gal-1-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Contemporary living room with elegant wooden staircase">
+     </div>
+     <div class="gallery-item rounded-2xl overflow-hidden cursor-pointer group aspect-square"><img data-template-id="gal-2-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/3764984/pexels-photo-3764984.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Elegant white luxury car in an urban alley">
+     </div>
+     <div class="gallery-item rounded-2xl overflow-hidden cursor-pointer group aspect-square"><img data-template-id="gal-3-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/5378697/pexels-photo-5378697.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Stylish woman in a luxurious hotel setting">
+     </div>
+     <div class="gallery-item rounded-2xl overflow-hidden cursor-pointer group aspect-square"><img data-template-id="gal-4-img" class="canva-image w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" src="https://images.pexels.com/photos/248077/pexels-photo-248077.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Gold wedding rings and tiara on ornate background">
+     </div>
+    </div>
+   </section><!-- Newsletter -->
+   <section class="py-16 px-6 bg-matte-black">
+    <div class="max-w-xl mx-auto text-center">
+     <h2 data-template-id="newsletter-title" class="canva-text font-playfair text-2xl text-white mb-3" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 24px;">Join the Inner Circle</h2>
+     <p data-template-id="newsletter-sub" class="canva-text text-white/50 text-sm mb-8" style="color: rgba(255, 255, 255, 0.5); font-weight: 400; font-style: normal; font-size: 16px;">Subscribe for exclusive access to new arrivals, private sales, and luxury lifestyle content.</p>
+     <form id="newsletter-form" class="flex flex-col sm:flex-row gap-3"><label for="newsletter-email" class="sr-only">Email address</label> <input id="newsletter-email" type="email" placeholder="Enter your email" required="" class="flex-1 px-5 py-3 rounded-full bg-white/10 border border-white/20 text-white placeholder-white/40 text-sm"> <button data-template-id="newsletter-btn" type="submit" class="canva-button px-7 py-3 rounded-full text-sm font-semibold transition hover:opacity-90" style="background: rgb(201, 169, 110); color: rgb(0, 0, 0); font-weight: 600; font-style: normal; font-size: 16px;">Subscribe</button>
+     </form>
+     <p id="newsletter-msg" class="hidden mt-4 text-gold text-sm">Thank you for subscribing!</p>
+    </div>
+   </section><!-- FAQ -->
+   <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+     <h2 data-template-id="faq-title" class="canva-text font-playfair text-2xl text-center mb-10" style="color: rgb(26, 26, 26); font-weight: 700; font-style: normal; font-size: 24px;">Frequently Asked Questions</h2>
+     <div class="space-y-3" id="faq-container">
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"><button class="faq-toggle w-full px-5 py-4 flex justify-between items-center text-left font-medium text-sm" aria-expanded="false"><span>What brands do you carry?</span><i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i></button>
+       <div class="faq-content hidden px-5 pb-4 text-sm text-gray-600 dark:text-gray-400">
+        We partner with over 50 luxury brands including exclusive collections from renowned fashion houses worldwide.
+       </div>
+      </div>
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"><button class="faq-toggle w-full px-5 py-4 flex justify-between items-center text-left font-medium text-sm" aria-expanded="false"><span>Do you offer international shipping?</span><i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i></button>
+       <div class="faq-content hidden px-5 pb-4 text-sm text-gray-600 dark:text-gray-400">
+        Yes, we ship to over 85 countries with complimentary express shipping on orders above $500.
+       </div>
+      </div>
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"><button class="faq-toggle w-full px-5 py-4 flex justify-between items-center text-left font-medium text-sm" aria-expanded="false"><span>What is your return policy?</span><i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i></button>
+       <div class="faq-content hidden px-5 pb-4 text-sm text-gray-600 dark:text-gray-400">
+        We offer a 30-day hassle-free return policy with full refund for all unworn items in original condition.
+       </div>
+      </div>
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"><button class="faq-toggle w-full px-5 py-4 flex justify-between items-center text-left font-medium text-sm" aria-expanded="false"><span>Are all products authentic?</span><i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i></button>
+       <div class="faq-content hidden px-5 pb-4 text-sm text-gray-600 dark:text-gray-400">
+        Every product comes with a certificate of authenticity. We source directly from brands and authorized distributors.
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact -->
+   <section id="contact" class="py-16 px-6 bg-gray-50 dark:bg-charcoal/30">
+    <div class="max-w-6xl mx-auto">
+     <h2 data-template-id="contact-title" class="canva-text font-playfair text-2xl md:text-3xl text-center mb-12" style="color: rgb(26, 26, 26); font-weight: 700; font-style: normal; font-size: 24px;">Get in Touch</h2>
+     <div class="grid md:grid-cols-2 gap-12">
+      <div>
+       <div class="space-y-5 mb-8">
+        <div class="flex items-start gap-3"><i data-lucide="map-pin" class="w-5 h-5 text-gold mt-0.5"></i>
+         <p class="text-sm text-gray-600 dark:text-gray-300">123 Luxury Avenue, Milan, Italy 20121</p>
+        </div>
+        <div class="flex items-start gap-3"><i data-lucide="mail" class="w-5 h-5 text-gold mt-0.5"></i>
+         <p class="text-sm text-gray-600 dark:text-gray-300">concierge@luxemaison.com</p>
+        </div>
+        <div class="flex items-start gap-3"><i data-lucide="phone" class="w-5 h-5 text-gold mt-0.5"></i>
+         <p class="text-sm text-gray-600 dark:text-gray-300">+39 02 1234 5678</p>
+        </div>
+       </div>
+      </div>
+      <form id="contact-form" class="space-y-4"><label for="c-name" class="sr-only">Name</label> <input id="c-name" type="text" placeholder="Your Name" required="" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-charcoal text-sm"> <label for="c-email" class="sr-only">Email</label> <input id="c-email" type="email" placeholder="Your Email" required="" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-charcoal text-sm"> <label for="c-msg" class="sr-only">Message</label> <textarea id="c-msg" rows="4" placeholder="Your Message" required="" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-charcoal resize-none text-sm"></textarea> <button data-template-id="contact-btn" type="submit" class="canva-button w-full px-6 py-3 rounded-xl font-semibold text-sm transition hover:opacity-90" style="background: rgb(201, 169, 110); color: rgb(0, 0, 0); font-weight: 600; font-style: normal; font-size: 16px;">Send Message</button>
+       <p id="contact-msg" class="hidden text-gold text-sm">Message sent successfully!</p>
+      </form>
+     </div>
+    </div>
+   </section>
+  </main><!-- Footer -->
+  <footer data-template-id="footer-bg" class="canva-footer py-14 px-6 border-t border-gray-200 dark:border-gray-800" style="background: rgb(249, 250, 251);">
+   <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+    <div>
+     <h3 data-template-id="footer-brand" class="canva-text font-playfair text-lg mb-4" style="color: rgb(201, 169, 110); font-weight: 700; font-style: normal; font-size: 19px;">LUXE MAISON</h3>
+     <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-xs">Curating the world's finest luxury goods since 2015. Elegance delivered to your doorstep.</p>
+    </div>
+    <div>
+     <h4 class="font-semibold mb-3 text-xs uppercase tracking-wider">Quick Links</h4>
+     <ul class="space-y-2 text-gray-500 dark:text-gray-400 text-xs">
+      <li><a href="#shop" class="hover:text-gold transition">Shop</a></li>
+      <li><a href="#categories" class="hover:text-gold transition">Categories</a></li>
+      <li><a href="#offers" class="hover:text-gold transition">Offers</a></li>
+      <li><a href="#contact" class="hover:text-gold transition">Contact</a></li>
+     </ul>
+    </div>
+    <div>
+     <h4 class="font-semibold mb-3 text-xs uppercase tracking-wider">Support</h4>
+     <ul class="space-y-2 text-gray-500 dark:text-gray-400 text-xs">
+      <li>Shipping Info</li>
+      <li>Returns &amp; Exchanges</li>
+      <li>Size Guide</li>
+      <li>FAQ</li>
+     </ul>
+    </div>
+    <div>
+     <h4 class="font-semibold mb-3 text-xs uppercase tracking-wider">Follow Us</h4>
+     <div class="flex gap-3 text-gray-500"><i data-lucide="instagram" class="w-4 h-4 hover:text-gold cursor-pointer transition"></i> <i data-lucide="twitter" class="w-4 h-4 hover:text-gold cursor-pointer transition"></i> <i data-lucide="facebook" class="w-4 h-4 hover:text-gold cursor-pointer transition"></i>
+     </div>
+    </div>
+   </div>
+   <div class="max-w-7xl mx-auto mt-10 pt-6 border-t border-gray-200 dark:border-gray-800 text-center text-xs text-gray-400">
+    <p>© 2026 Luxe Maison. All rights reserved.</p>
+   </div>
+  </footer><!-- Cart Drawer -->
+  <div id="cart-overlay" class="overlay fixed inset-0 bg-black/50 z-[70]"></div>
+  <aside id="cart-drawer" class="cart-drawer fixed top-0 right-0 h-full w-full max-w-sm bg-white dark:bg-matte-black z-[80] flex flex-col shadow-2xl" aria-label="Shopping cart">
+   <div class="flex items-center justify-between p-5 border-b border-gray-200 dark:border-gray-800">
+    <h3 class="font-playfair text-lg font-bold">Your Cart</h3><button id="close-cart" aria-label="Close cart" class="p-2 hover:text-gold"><i data-lucide="x" class="w-5 h-5"></i></button>
+   </div>
+   <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+   <div class="p-5 border-t border-gray-200 dark:border-gray-800">
+    <div class="flex justify-between font-semibold text-lg mb-4">
+     <span>Total</span><span id="cart-total">$0</span>
+    </div><button id="empty-cart-btn" class="w-full py-2 text-xs text-red-500 border border-red-200 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition">Empty Cart</button>
+   </div>
+  </aside><!-- Quick View Modal -->
+  <div id="quickview-overlay" class="overlay fixed inset-0 bg-black/60 z-[90]"></div>
+  <div id="quickview-modal" class="overlay fixed inset-0 z-[100] flex items-center justify-center p-4">
+   <div class="bg-white dark:bg-charcoal rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative"><button id="close-quickview" class="absolute top-4 right-4 p-2 hover:text-gold"><i data-lucide="x" class="w-5 h-5"></i></button>
+    <div class="grid md:grid-cols-2 gap-6" id="quickview-content"></div>
+   </div>
+  </div><!-- Lightbox -->
+  <div id="lightbox" class="lightbox fixed inset-0 z-[110] bg-black/90 flex items-center justify-center p-4"><button id="close-lightbox" class="absolute top-4 right-4 text-white p-2"><i data-lucide="x" class="w-6 h-6"></i></button> <img id="lightbox-img" class="max-w-full max-h-[80vh] object-contain rounded-lg" alt="Gallery preview">
+  </div><!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-[120] space-y-2"></div><!-- Back to Top --> <button id="back-top" aria-label="Back to top" class="fixed bottom-6 left-6 z-50 w-10 h-10 rounded-full bg-gold text-black flex items-center justify-center shadow-lg opacity-0 transition-opacity hover:bg-gold-light"><i data-lucide="arrow-up" class="w-5 h-5"></i></button>
+  <script src="/_sdk/719055fef2a85d14.editing_sdk.js" integrity="sha512-kFqrdGgIiTOsu307feB5Cy3JVP9IayftsmCIZ0csxYBGuBmJQPhyvcnmKR8F0fTW97h5s1gAvz3SumI8zJ6OxQ=="></script>
+  <script>
+    const products = [
+      { id:1, name:"Royal Chronograph", brand:"Luxe Time", category:"watches", price:12500, originalPrice:15000, rating:4.9, reviews:128, image:"https://images.pexels.com/photos/3809175/pexels-photo-3809175.jpeg?auto=compress&cs=tinysrgb&w=800", discount:17, stock:"In Stock", new:true },
+      { id:2, name:"Midnight Silver Watch", brand:"Horologia", category:"watches", price:8900, originalPrice:10500, rating:4.8, reviews:95, image:"https://images.pexels.com/photos/280250/pexels-photo-280250.jpeg?auto=compress&cs=tinysrgb&w=800", discount:15, stock:"In Stock", new:false },
+      { id:3, name:"Emerald Timepiece", brand:"Chronos Elite", category:"watches", price:18500, originalPrice:22000, rating:5.0, reviews:42, image:"https://images.pexels.com/photos/36450789/pexels-photo-36450789.jpeg?auto=compress&cs=tinysrgb&w=800", discount:16, stock:"Limited", new:true },
+      { id:4, name:"Milano Leather Tote", brand:"Casa Bella", category:"bags", price:3200, originalPrice:4000, rating:4.7, reviews:210, image:"https://images.pexels.com/photos/1204464/pexels-photo-1204464.jpeg?auto=compress&cs=tinysrgb&w=800", discount:20, stock:"In Stock", new:false },
+      { id:5, name:"Heritage Briefcase", brand:"Maison Luxe", category:"bags", price:2800, originalPrice:3500, rating:4.6, reviews:87, image:"https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=800", discount:20, stock:"In Stock", new:false },
+      { id:6, name:"Noir Crossbody", brand:"Atelier Paris", category:"bags", price:4500, originalPrice:5200, rating:4.9, reviews:156, image:"https://images.pexels.com/photos/12373441/pexels-photo-12373441.jpeg?auto=compress&cs=tinysrgb&w=800", discount:13, stock:"In Stock", new:true },
+      { id:7, name:"Oud Royale", brand:"Parfum Élite", category:"perfumes", price:450, originalPrice:550, rating:4.8, reviews:320, image:"https://images.pexels.com/photos/3059609/pexels-photo-3059609.jpeg?auto=compress&cs=tinysrgb&w=800", discount:18, stock:"In Stock", new:false },
+      { id:8, name:"Golden Elixir", brand:"Scent Maison", category:"perfumes", price:680, originalPrice:800, rating:4.9, reviews:198, image:"https://images.pexels.com/photos/7702669/pexels-photo-7702669.jpeg?auto=compress&cs=tinysrgb&w=800", discount:15, stock:"In Stock", new:true },
+      { id:9, name:"Velvet Night", brand:"Luxe Fragrance", category:"perfumes", price:520, originalPrice:650, rating:4.7, reviews:145, image:"https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=800", discount:20, stock:"In Stock", new:false },
+      { id:10, name:"Oxford Premium", brand:"Calzature", category:"shoes", price:1200, originalPrice:1500, rating:4.8, reviews:76, image:"https://images.pexels.com/photos/267320/pexels-photo-267320.jpeg?auto=compress&cs=tinysrgb&w=800", discount:20, stock:"In Stock", new:false },
+      { id:11, name:"Stiletto Rouge", brand:"Maison Sole", category:"shoes", price:1800, originalPrice:2200, rating:4.9, reviews:112, image:"https://images.pexels.com/photos/336372/pexels-photo-336372.jpeg?auto=compress&cs=tinysrgb&w=800", discount:18, stock:"Limited", new:true },
+      { id:12, name:"Classic Loafers", brand:"Artisan Walk", category:"shoes", price:950, originalPrice:1100, rating:4.6, reviews:89, image:"https://images.pexels.com/photos/9992899/pexels-photo-9992899.jpeg?auto=compress&cs=tinysrgb&w=800", discount:14, stock:"In Stock", new:false },
+      { id:13, name:"Diamond Eternity Ring", brand:"Bijoux Royal", category:"jewelry", price:15000, originalPrice:18000, rating:5.0, reviews:45, image:"https://images.pexels.com/photos/1457801/pexels-photo-1457801.jpeg?auto=compress&cs=tinysrgb&w=800", discount:17, stock:"Limited", new:true },
+      { id:14, name:"Gold Cascade Necklace", brand:"Oro Fino", category:"jewelry", price:8500, originalPrice:10000, rating:4.9, reviews:67, image:"https://images.pexels.com/photos/24815712/pexels-photo-24815712.jpeg?auto=compress&cs=tinysrgb&w=800", discount:15, stock:"In Stock", new:false },
+      { id:15, name:"Sapphire Pendant", brand:"Gemma Luxe", category:"jewelry", price:6200, originalPrice:7500, rating:4.8, reviews:92, image:"https://images.pexels.com/photos/2732096/pexels-photo-2732096.jpeg?auto=compress&cs=tinysrgb&w=800", discount:17, stock:"In Stock", new:true },
+      { id:16, name:"Aviator Gold", brand:"Vue Luxe", category:"sunglasses", price:650, originalPrice:800, rating:4.7, reviews:234, image:"https://images.pexels.com/photos/701877/pexels-photo-701877.jpeg?auto=compress&cs=tinysrgb&w=800", discount:19, stock:"In Stock", new:false },
+      { id:17, name:"Noir Shield", brand:"Optique Elite", category:"sunglasses", price:890, originalPrice:1050, rating:4.8, reviews:178, image:"https://images.pexels.com/photos/8104329/pexels-photo-8104329.jpeg?auto=compress&cs=tinysrgb&w=800", discount:15, stock:"In Stock", new:true },
+      { id:18, name:"Classic Cat-Eye", brand:"Maison Vue", category:"sunglasses", price:720, originalPrice:850, rating:4.6, reviews:143, image:"https://images.pexels.com/photos/29332843/pexels-photo-29332843.jpeg?auto=compress&cs=tinysrgb&w=800", discount:15, stock:"In Stock", new:false },
+      { id:19, name:"Platinum Chronograph", brand:"Tempus", category:"watches", price:22000, originalPrice:26000, rating:5.0, reviews:31, image:"https://images.pexels.com/photos/10414975/pexels-photo-10414975.jpeg?auto=compress&cs=tinysrgb&w=800", discount:15, stock:"Limited", new:true },
+      { id:20, name:"Hermès Clutch", brand:"Maison H", category:"bags", price:7800, originalPrice:9000, rating:4.9, reviews:68, image:"https://images.pexels.com/photos/16690455/pexels-photo-16690455.jpeg?auto=compress&cs=tinysrgb&w=800", discount:13, stock:"Limited", new:false },
+      { id:21, name:"Crystal Noir Perfume", brand:"Essence", category:"perfumes", price:380, originalPrice:450, rating:4.7, reviews:267, image:"https://images.pexels.com/photos/37127787/pexels-photo-37127787.jpeg?auto=compress&cs=tinysrgb&w=800", discount:16, stock:"In Stock", new:false },
+      { id:22, name:"Leather Chelsea Boots", brand:"Stivaletto", category:"shoes", price:1450, originalPrice:1750, rating:4.8, reviews:94, image:"https://images.pexels.com/photos/3558802/pexels-photo-3558802.jpeg?auto=compress&cs=tinysrgb&w=800", discount:17, stock:"In Stock", new:true },
+      { id:23, name:"Tennis Bracelet", brand:"Diamante", category:"jewelry", price:9800, originalPrice:12000, rating:4.9, reviews:56, image:"https://images.pexels.com/photos/1191531/pexels-photo-1191531.jpeg?auto=compress&cs=tinysrgb&w=800", discount:18, stock:"In Stock", new:false },
+      { id:24, name:"Polarized Wayfarers", brand:"Sol Elite", category:"sunglasses", price:550, originalPrice:700, rating:4.6, reviews:312, image:"https://images.pexels.com/photos/38185097/pexels-photo-38185097.jpeg?auto=compress&cs=tinysrgb&w=800", discount:21, stock:"In Stock", new:true },
+      { id:25, name:"Rose Gold Elegance", brand:"Tempus Rosa", category:"watches", price:9500, originalPrice:11000, rating:4.8, reviews:73, image:"https://images.pexels.com/photos/19810831/pexels-photo-19810831.jpeg?auto=compress&cs=tinysrgb&w=800", discount:14, stock:"In Stock", new:true },
+      { id:26, name:"Premium Leather Wallet", brand:"Pelletteria", category:"accessories", price:420, originalPrice:520, rating:4.7, reviews:189, image:"https://images.pexels.com/photos/7085799/pexels-photo-7085799.jpeg?auto=compress&cs=tinysrgb&w=800", discount:19, stock:"In Stock", new:false },
+      { id:27, name:"Silk Designer Scarf", brand:"Tessuto Luxe", category:"fashion", price:380, originalPrice:480, rating:4.6, reviews:156, image:"https://images.pexels.com/photos/4464816/pexels-photo-4464816.jpeg?auto=compress&cs=tinysrgb&w=800", discount:21, stock:"In Stock", new:true },
+      { id:28, name:"Gold Cufflinks Set", brand:"Gentlemen's", category:"accessories", price:680, originalPrice:850, rating:4.8, reviews:94, image:"https://images.pexels.com/photos/33242820/pexels-photo-33242820.jpeg?auto=compress&cs=tinysrgb&w=800", discount:20, stock:"In Stock", new:false },
+      { id:29, name:"Pearl Drop Earrings", brand:"Perla Luxe", category:"jewelry", price:4200, originalPrice:5000, rating:4.9, reviews:78, image:"https://images.pexels.com/photos/7134458/pexels-photo-7134458.jpeg?auto=compress&cs=tinysrgb&w=800", discount:16, stock:"In Stock", new:true },
+      { id:30, name:"Crocodile Leather Belt", brand:"Cintura Elite", category:"accessories", price:590, originalPrice:750, rating:4.7, reviews:203, image:"https://images.pexels.com/photos/35322152/pexels-photo-35322152.jpeg?auto=compress&cs=tinysrgb&w=800", discount:21, stock:"In Stock", new:false },
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('lm-cart') || '[]');
+    let wishlist = JSON.parse(localStorage.getItem('lm-wishlist') || '[]');
+    let activeFilter = 'all';
+    let priceRange = 'all';
+    let sortBy = 'default';
+    let searchQuery = '';
+
+    function saveCart() { localStorage.setItem('lm-cart', JSON.stringify(cart)); updateCartUI(); }
+    function saveWishlist() { localStorage.setItem('lm-wishlist', JSON.stringify(wishlist)); updateWishlistBadge(); }
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.className = 'toast bg-charcoal text-white px-4 py-3 rounded-xl shadow-lg text-xs flex items-center gap-2';
+      t.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-gold"></i>${msg}`;
+      document.getElementById('toast-container').appendChild(t);
+      lucide.createIcons();
+      setTimeout(() => t.remove(), 3000);
+    }
+
+    function renderProducts() {
+      let filtered = [...products];
+      if (searchQuery) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery) || p.brand.toLowerCase().includes(searchQuery));
+      if (activeFilter !== 'all') filtered = filtered.filter(p => p.category === activeFilter);
+      if (priceRange !== 'all') { const [min, max] = priceRange.split('-').map(Number); filtered = filtered.filter(p => p.price >= min && p.price <= max); }
+      if (sortBy === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+      else if (sortBy === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+      else if (sortBy === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+      else if (sortBy === 'newest') filtered.sort((a,b) => b.new - a.new);
+
+      const grid = document.getElementById('products-grid');
+      const noP = document.getElementById('no-products');
+      if (!filtered.length) { grid.innerHTML = ''; noP.classList.remove('hidden'); return; }
+      noP.classList.add('hidden');
+      grid.innerHTML = filtered.map(p => {
+        const inWish = wishlist.includes(p.id);
+        return `<div class="card-hover bg-white dark:bg-charcoal rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 group">
+          <div class="relative overflow-hidden aspect-square">
+            <img src="${p.image}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            ${p.discount ? `<span class="absolute top-3 left-3 bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full font-medium">-${p.discount}%</span>` : ''}
+            ${p.new ? `<span class="absolute top-3 right-3 bg-gold text-black text-[10px] px-2 py-0.5 rounded-full font-semibold">NEW</span>` : ''}
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+              <button onclick="openQuickView(${p.id})" class="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gold transition" aria-label="Quick view"><i data-lucide="eye" class="w-3.5 h-3.5"></i></button>
+              <button onclick="toggleWishlist(${p.id})" class="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gold transition" aria-label="Toggle wishlist"><i data-lucide="heart" class="w-3.5 h-3.5 ${inWish ? 'fill-red-500 text-red-500' : ''}"></i></button>
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-[10px] text-gold uppercase tracking-wider mb-1">${p.brand}</p>
+            <h3 class="font-medium mb-1 text-xs">${p.name}</h3>
+            <div class="flex items-center gap-1 mb-2"><span class="text-gold text-[10px]">${'★'.repeat(Math.floor(p.rating))}</span><span class="text-[10px] text-gray-400">(${p.reviews})</span></div>
+            <div class="flex items-center gap-2 mb-3"><span class="font-bold text-gold text-sm">$${p.price.toLocaleString()}</span><span class="text-[10px] text-gray-400 line-through">$${p.originalPrice.toLocaleString()}</span></div>
+            <button onclick="addToCart(${p.id})" class="w-full py-2 bg-matte-black dark:bg-gold dark:text-black text-white text-xs rounded-lg hover:bg-gold hover:text-black transition font-medium">Add to Cart</button>
+          </div>
+        </div>`;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    function addToCart(id) { const e = cart.find(c => c.id === id); if (e) e.qty++; else cart.push({id, qty:1}); saveCart(); showToast('Added to cart'); }
+    function removeFromCart(id) { cart = cart.filter(c => c.id !== id); saveCart(); }
+    function updateQty(id, delta) { const item = cart.find(c => c.id === id); if (item) { item.qty += delta; if (item.qty < 1) removeFromCart(id); else saveCart(); } }
+    function updateCartUI() {
+      const badge = document.getElementById('cart-badge');
+      const total = cart.reduce((s,c) => s + c.qty, 0);
+      badge.textContent = total; badge.classList.toggle('hidden', total === 0);
+      const container = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+      if (!cart.length) { container.innerHTML = '<p class="text-center text-gray-400 py-8 text-sm">Your cart is empty</p>'; totalEl.textContent = '$0'; return; }
+      let sum = 0;
+      container.innerHTML = cart.map(c => {
+        const p = products.find(x => x.id === c.id); sum += p.price * c.qty;
+        return `<div class="flex gap-3 items-center border-b border-gray-100 dark:border-gray-800 pb-3">
+          <img src="${p.image}" alt="${p.name}" class="w-14 h-14 rounded-lg object-cover">
+          <div class="flex-1 min-w-0"><p class="text-xs font-medium truncate">${p.name}</p><p class="text-[10px] text-gold">${p.brand}</p>
+            <div class="flex items-center gap-2 mt-1"><button onclick="updateQty(${p.id},-1)" class="w-5 h-5 border rounded text-[10px] flex items-center justify-center">−</button><span class="text-xs">${c.qty}</span><button onclick="updateQty(${p.id},1)" class="w-5 h-5 border rounded text-[10px] flex items-center justify-center">+</button></div>
+          </div>
+          <div class="text-right"><p class="text-xs font-semibold">$${(p.price*c.qty).toLocaleString()}</p><button onclick="removeFromCart(${p.id})" class="text-red-400 text-[10px] mt-1 hover:text-red-600">Remove</button></div>
+        </div>`;
+      }).join('');
+      totalEl.textContent = '$' + sum.toLocaleString();
+    }
+
+    function toggleWishlist(id) { const i = wishlist.indexOf(id); if (i > -1) { wishlist.splice(i,1); showToast('Removed from wishlist'); } else { wishlist.push(id); showToast('Added to wishlist'); } saveWishlist(); renderProducts(); }
+    function updateWishlistBadge() { const b = document.getElementById('wishlist-badge'); b.textContent = wishlist.length; b.classList.toggle('hidden', !wishlist.length); }
+
+    function openQuickView(id) {
+      const p = products.find(x => x.id === id);
+      document.getElementById('quickview-content').innerHTML = `
+        <img src="${p.image}" alt="${p.name}" class="w-full h-64 md:h-full object-cover rounded-xl">
+        <div class="flex flex-col justify-center">
+          <p class="text-gold text-xs uppercase tracking-wider mb-1">${p.brand}</p>
+          <h3 class="font-playfair text-xl font-bold mb-2">${p.name}</h3>
+          <div class="flex items-center gap-2 mb-3"><span class="text-gold text-sm">${'★'.repeat(Math.floor(p.rating))}</span><span class="text-xs text-gray-400">${p.rating} (${p.reviews} reviews)</span></div>
+          <div class="flex items-center gap-3 mb-4"><span class="text-xl font-bold text-gold">$${p.price.toLocaleString()}</span><span class="text-gray-400 line-through text-sm">$${p.originalPrice.toLocaleString()}</span></div>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">A masterpiece of craftsmanship and elegance. This exclusive piece embodies the pinnacle of luxury design.</p>
+          <p class="text-xs mb-4"><span class="font-medium">Availability:</span> <span class="${p.stock==='Limited'?'text-orange-500':'text-green-500'}">${p.stock}</span></p>
+          <button onclick="addToCart(${p.id}); closeQuickView();" class="px-6 py-3 bg-gold text-black font-semibold rounded-lg hover:bg-gold-light transition text-sm">Add to Cart</button>
+        </div>`;
+      document.getElementById('quickview-modal').classList.add('active');
+      document.getElementById('quickview-overlay').classList.add('active');
+    }
+    function closeQuickView() { document.getElementById('quickview-modal').classList.remove('active'); document.getElementById('quickview-overlay').classList.remove('active'); }
+
+    function startCountdown() {
+      const end = new Date(); end.setDate(end.getDate() + 3);
+      setInterval(() => {
+        const diff = end - new Date(); if (diff <= 0) return;
+        document.getElementById('cd-days').textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
+        document.getElementById('cd-hours').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+        document.getElementById('cd-mins').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+        document.getElementById('cd-secs').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+      }, 1000);
+    }
+
+    function animateCounters() {
+      document.querySelectorAll('.counter').forEach(el => {
+        const target = +el.dataset.target; let current = 0; const step = target / 100;
+        const timer = setInterval(() => { current += step; if (current >= target) { el.textContent = target.toLocaleString(); clearInterval(timer); } else el.textContent = Math.floor(current).toLocaleString(); }, 16);
+      });
+    }
+
+    function initDarkMode() {
+      if (localStorage.getItem('lm-dark') === 'true') document.documentElement.classList.add('dark');
+      document.getElementById('dark-toggle').addEventListener('click', () => { document.documentElement.classList.toggle('dark'); localStorage.setItem('lm-dark', document.documentElement.classList.contains('dark')); });
+    }
+
+    function initScroll() {
+      const prog = document.getElementById('scroll-progress'); const btn = document.getElementById('back-top');
+      window.addEventListener('scroll', () => { const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100; prog.style.width = pct + '%'; btn.style.opacity = window.scrollY > 500 ? '1' : '0'; });
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+
+    function initReveal() {
+      const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, { threshold: 0.1 });
+      document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+    }
+
+    let counterDone = false;
+    function initCounterObs() {
+      const obs = new IntersectionObserver(entries => { if (entries[0].isIntersecting && !counterDone) { counterDone = true; animateCounters(); } }, { threshold: 0.3 });
+      const c = document.querySelector('.counter'); if (c) obs.observe(c.parentElement.parentElement);
+    }
+
+    function closeCartDrawer() { document.getElementById('cart-drawer').classList.remove('open'); document.getElementById('cart-overlay').classList.remove('active'); }
+    function closeMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
+
+    function initEvents() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(x => { x.classList.remove('active','border-gold','text-gold'); x.classList.add('border-gray-300','dark:border-gray-600'); });
+        b.classList.add('active','border-gold','text-gold'); b.classList.remove('border-gray-300','dark:border-gray-600');
+        activeFilter = b.dataset.filter; renderProducts();
+      }));
+      document.querySelectorAll('.cat-card').forEach(c => c.addEventListener('click', () => {
+        activeFilter = c.dataset.cat;
+        document.querySelectorAll('.filter-btn').forEach(x => { x.classList.remove('active','border-gold','text-gold'); x.classList.add('border-gray-300','dark:border-gray-600'); });
+        const btn = document.querySelector(`.filter-btn[data-filter="${activeFilter}"]`);
+        if (btn) { btn.classList.add('active','border-gold','text-gold'); btn.classList.remove('border-gray-300','dark:border-gray-600'); }
+        renderProducts(); document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+      }));
+      document.getElementById('price-filter').addEventListener('change', e => { priceRange = e.target.value; renderProducts(); });
+      document.getElementById('sort-filter').addEventListener('change', e => { sortBy = e.target.value; renderProducts(); });
+      document.getElementById('search-input').addEventListener('input', e => { searchQuery = e.target.value.toLowerCase(); renderProducts(); });
+      document.getElementById('search-toggle').addEventListener('click', () => document.getElementById('search-bar').classList.toggle('hidden'));
+      document.getElementById('cart-toggle').addEventListener('click', () => { document.getElementById('cart-drawer').classList.add('open'); document.getElementById('cart-overlay').classList.add('active'); });
+      document.getElementById('close-cart').addEventListener('click', closeCartDrawer);
+      document.getElementById('cart-overlay').addEventListener('click', closeCartDrawer);
+      document.getElementById('empty-cart-btn').addEventListener('click', () => { cart = []; saveCart(); showToast('Cart emptied'); });
+      document.getElementById('close-quickview').addEventListener('click', closeQuickView);
+      document.getElementById('quickview-overlay').addEventListener('click', closeQuickView);
+      document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobile-menu').classList.add('open'));
+      document.getElementById('close-menu').addEventListener('click', closeMenu);
+      document.querySelectorAll('.gallery-item img').forEach(img => img.addEventListener('click', () => { document.getElementById('lightbox-img').src = img.src; document.getElementById('lightbox').classList.add('active'); }));
+      document.getElementById('close-lightbox').addEventListener('click', () => document.getElementById('lightbox').classList.remove('active'));
+      document.getElementById('lightbox').addEventListener('click', e => { if (e.target.id === 'lightbox') document.getElementById('lightbox').classList.remove('active'); });
+      document.querySelectorAll('.faq-toggle').forEach(btn => btn.addEventListener('click', () => {
+        const content = btn.nextElementSibling; const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', !expanded); content.classList.toggle('hidden');
+        btn.querySelector('i').style.transform = expanded ? '' : 'rotate(180deg)';
+      }));
+      document.getElementById('newsletter-form').addEventListener('submit', e => { e.preventDefault(); document.getElementById('newsletter-msg').classList.remove('hidden'); e.target.reset(); });
+      document.getElementById('contact-form').addEventListener('submit', e => { e.preventDefault(); document.getElementById('contact-msg').classList.remove('hidden'); e.target.reset(); });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons(); initDarkMode(); initScroll(); initReveal(); initCounterObs(); initEvents(); renderProducts(); updateCartUI(); updateWishlistBadge(); startCountdown();
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a185780c34f57f7c',t:'MTc4MzU4MDYwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body></html>
