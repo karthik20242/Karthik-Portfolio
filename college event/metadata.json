@@ -1,6 +1,0 @@
-{
-  "name": "College Fest Landing Page",
-  "description": "A world-class, premium college technical and cultural festival landing page featuring events, schedules, gallery, sponsors, chief guests, and interactive elements.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
